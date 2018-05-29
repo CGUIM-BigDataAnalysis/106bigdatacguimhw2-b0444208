@@ -21,7 +21,7 @@ library(readr)
 library(RCurl)
 library(curl)
 library(bitops)
-library(readxl)
+
 X103_ab103_C <- read_csv("C:/Users/IM/Desktop/R/103_ab103_C.csv")
 X103_ab103_S <- read_csv("C:/Users/IM/Desktop/R/103_ab103_S.csv")
 X104_ab104_C <- read_csv("C:/Users/IM/Desktop/R/104_ab104_C.csv")
@@ -30,7 +30,6 @@ X105_ab105_C <- read_csv("C:/Users/IM/Desktop/R/105_ab105_C.csv")
 X105_ab105_S <- read_csv("C:/Users/IM/Desktop/R/105_ab105_S.csv")
 X106_ab105_C <- read_csv("C:/Users/IM/Desktop/R/106_ab105_C.csv")
 X106_ab105_S <- read_csv("C:/Users/IM/Desktop/R/106_ab105_S.csv")
-English <- read_excel("C:/Users/IM/Desktop/English.xlsx")
 
 
 ```
@@ -88,8 +87,6 @@ ggplot()+geom_bar(data=New103104105106,aes(x=國別,y=境外專班加總),
 ### 各個國家來台灣唸書的學生人數面量圖
 ```{r ToTWNCountryMap}
 #這是R Code Chunk
-
-
 ```
 
 ## 台灣學生國際交流分析
@@ -97,52 +94,22 @@ ggplot()+geom_bar(data=New103104105106,aes(x=國別,y=境外專班加總),
 ### 資料匯入與處理
 ```{r dataloadFromTWN}
 #這是R Code Chunk
-library(readxl)
-library(dplyr)
-Student_RPT_07 <- read_excel("C:/Users/IM/Desktop/Student_RPT_07.xlsx")
 
 ```
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流呢？
 ```{r FromTWNCountry}
 #這是R Code Chunk
-filter1<-filter(Student_RPT_07,學年度>103)
-filter1$X__7<-as.numeric(gsub("—","0",filter1$X__7))
-filter1$country<-filter1$`對方學校(機構)國別(地區)`
-
-
-group1<-group_by(filter1,country)
-group1<-summarise(group1,total=sum(X__7))
-group1<-arrange(group1,desc(total))
-knitr::kable(group1[1:10,])
-
 ```
 
 ### 哪間大學的出國交流學生數最多呢？
 ```{r FromTWNUniversity}
 #這是R Code Chunk
-
-filter2<-filter(Student_RPT_07,學年度>103)
-filter2$X__7<-as.numeric(gsub("—","0",filter2$X__7))
-filter2$school<-filter2$X__4
-group2<-group_by(filter2,school)
-group2<-summarise(group2,total=sum(X__7))
-group2<-arrange(group2,desc(total))
-knitr::kable(group2[1:10,])
-
 ```
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流條狀圖
 ```{r FromTWNCountryBar}
 #這是R Code Chunk
-
-library(ggplot2) 
-library(datasets) 
-library(data.table)
-ggplot()+geom_bar(data=group1,aes(x=country,y=total),
-                  stat = "identity")
-
-
 ```
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流面量圖
@@ -162,9 +129,9 @@ English <- read_excel("C:/Users/IM/Desktop/English.xlsx")
 ### 台灣學生最喜歡去哪些國家留學呢？
 ```{r FromTWNAb}
 #這是R Code Chunk
-English$`Head Count`<-as.numeric(English$`Head Count`)
-English<-arrange(English,desc(`Head Count`))
-knitr::kable(English[1:10,])
+English$`Head Count`<-as.numeric(gsub("—","0",English$`Head Count`))
+NewEnglish<-arrange(English,desc(`Head Count`))
+NewEnglish[1:10,]
 ```
 
 ### 台灣學生最喜歡去哪些國家留學面量圖
