@@ -48,39 +48,97 @@ New103104105106S<-arrange(New103104105106S,desc(境外專班加總))
 New103104105106S[1:10,]
 
 
+
+
+
+
+
+
+
+
+
+#######################################
+
+
+
+
 library(ggplot2) 
 library(datasets) 
 library(data.table)
 
-#ggplot(New103104105106, 
-#aes(x = 國別, y = 境外專班加總)) + 
-#geom_point()+
-#geom_smooth(method = lm)
-
 ggplot()+geom_bar(data=New103104105106,aes(x=國別,y=境外專班加總),
                   stat = "identity")
-#install.packages(c("choroplethr","choroplethrMaps"))
-
-li
-library(ggmap)
-library(ggplot2) 
 
 
+
+
+
+#######################################
+
+
+
+
+
+#######################################
 library(dplyr)
 filter1<-filter(Student_RPT_07,學年度>103)
-View(filter1)
-
-Student_RPT_07$X__7<-as.numeric(gsub("—","0",Student_RPT_07$X__7))
-
-
-group1<-group_by(filter1$`對方學校(機構)國別(地區)`)
-
-group1<-summarise(group1,sum=sum(X__7))
-group1<-arrange(group1,desc(sum))
-View(group1)
-View(group1[1:10,])
+filter1$X__7<-as.numeric(gsub("—","0",filter1$X__7))
+filter1$country<-filter1$`對方學校(機構)國別(地區)`
 
 
+group1<-group_by(filter1,country)
+group1<-summarise(group1,total=sum(X__7))
+group1<-arrange(group1,desc(total))
+knitr::kable(group1[1:10,])
+library(ggplot2) 
+library(datasets) 
+library(data.table)
+ggplot()+geom_bar(data=group1,aes(x=country,y=total),
+                  stat = "identity")
+
+#######################################
+library(dplyr)
+filter1<-filter(Student_RPT_07,學年度>103)
+filter1$X__7<-as.numeric(gsub("—","0",filter1$X__7))
+filter1$school<-filter1$X__4
+
+
+group1<-group_by(filter2,school)
+group1<-summarise(group1,total=sum(X__7))
+group1<-arrange(group1,desc(total))
+knitr::kable(group1[1:10,])
+library(ggplot2) 
+library(datasets) 
+library(data.table)
+ggplot()+geom_bar(data=group1,aes(x=school,y=total),
+                  stat = "identity")
+
+
+
+
+#######################################
+
+library(ggplot2) 
+library(rgdal)
+library(rgeos) 
+library(maptools) 
+library(ggmap)
+twmap <- get_googlemap(center = c(lon=120.58,lat=23.58), 
+                       zoom = 7,
+                       language = "zh-TW")
+
+ggmap(twmap)+ #ggmap
+  (data = group1,  #面量圖
+               aes(x = long, y = lat, 
+                   group = group, fill = total), 
+               color = "black", size = 0.1,
+               alpha = 0.5)
+#+ 
+#  scale_fill_gradientn(
+ #   colours = brewer.pal(9,"Reds"))
+
+?geom_polygon
+?get_googlemap
 
 
 
@@ -92,11 +150,13 @@ View(group1[1:10,])
 
 
 
+#######################################
 English$`Head Count`<-as.numeric(English$`Head Count`)
 English<-arrange(English,desc(`Head Count`))
 English[1:10,]
 
 
+#######################################
 
 
 

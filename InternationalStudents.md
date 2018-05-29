@@ -13,48 +13,9 @@ Yi-Ju Tseng
 
 ``` r
 #這是R Code Chunk
-library(jsonlite)
-library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
-library(httr)
+#install.packages("readr")
 library(readr)
-library(RCurl)
-```
-
-    ## Loading required package: bitops
-
-``` r
-library(curl)
-```
-
-    ## 
-    ## Attaching package: 'curl'
-
-    ## The following object is masked from 'package:readr':
-    ## 
-    ##     parse_date
-
-    ## The following object is masked from 'package:httr':
-    ## 
-    ##     handle_reset
-
-``` r
-library(bitops)
-library(readxl)
-X103_ab103_C <- read_csv("C:/Users/IM/Desktop/R/103_ab103_C.csv")
+c103 <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=25f64d5125016dcd6aed42e50c972ed0")
 ```
 
     ## Parsed with column specification:
@@ -73,7 +34,7 @@ X103_ab103_C <- read_csv("C:/Users/IM/Desktop/R/103_ab103_C.csv")
     ## )
 
 ``` r
-X103_ab103_S <- read_csv("C:/Users/IM/Desktop/R/103_ab103_S.csv")
+s103<- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=a6d1469f39fe41fb81dbfc373aef3331")
 ```
 
     ## Parsed with column specification:
@@ -93,7 +54,7 @@ X103_ab103_S <- read_csv("C:/Users/IM/Desktop/R/103_ab103_S.csv")
     ## )
 
 ``` r
-X104_ab104_C <- read_csv("C:/Users/IM/Desktop/R/104_ab104_C.csv")
+c104 <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=4d3e9b37b7b0fd3aa18a388cdbc77996")
 ```
 
     ## Parsed with column specification:
@@ -112,7 +73,7 @@ X104_ab104_C <- read_csv("C:/Users/IM/Desktop/R/104_ab104_C.csv")
     ## )
 
 ``` r
-X104_ab104_S <- read_csv("C:/Users/IM/Desktop/R/104_ab104_S.csv")
+s104<- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=8baeae81cba74f35cf0bb1333d3d99f5")
 ```
 
     ## Parsed with column specification:
@@ -132,7 +93,7 @@ X104_ab104_S <- read_csv("C:/Users/IM/Desktop/R/104_ab104_S.csv")
     ## )
 
 ``` r
-X105_ab105_C <- read_csv("C:/Users/IM/Desktop/R/105_ab105_C.csv")
+c105 <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=19bedf88cf46999da12513de755c33c6")
 ```
 
     ## Parsed with column specification:
@@ -151,7 +112,7 @@ X105_ab105_C <- read_csv("C:/Users/IM/Desktop/R/105_ab105_C.csv")
     ## )
 
 ``` r
-X105_ab105_S <- read_csv("C:/Users/IM/Desktop/R/105_ab105_S.csv")
+s105<- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=1a485383cf9995da679c3798ab4fd681")
 ```
 
     ## Parsed with column specification:
@@ -171,7 +132,7 @@ X105_ab105_S <- read_csv("C:/Users/IM/Desktop/R/105_ab105_S.csv")
     ## )
 
 ``` r
-X106_ab105_C <- read_csv("C:/Users/IM/Desktop/R/106_ab105_C.csv")
+c106 <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=50e3370f9f8794f2054c0c82a2ed8c91")
 ```
 
     ## Parsed with column specification:
@@ -190,7 +151,7 @@ X106_ab105_C <- read_csv("C:/Users/IM/Desktop/R/106_ab105_C.csv")
     ## )
 
 ``` r
-X106_ab105_S <- read_csv("C:/Users/IM/Desktop/R/106_ab105_S.csv")
+s106<- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_url=883e2ab4d5357f70bea9ac44a47d05cc")
 ```
 
     ## Parsed with column specification:
@@ -208,10 +169,6 @@ X106_ab105_S <- read_csv("C:/Users/IM/Desktop/R/106_ab105_S.csv")
     ##   非學位生_海青班 = col_integer(),
     ##   境外專班 = col_integer()
     ## )
-
-``` r
-English <- read_excel("C:/Users/IM/Desktop/English.xlsx")
-```
 
 ### 哪些國家來台灣唸書的學生最多呢？
 
@@ -256,93 +213,233 @@ kable(head(iris))
 |           5.4|          3.9|           1.7|          0.4| setosa  |
 
 ``` r
-New103104<-inner_join(X103_ab103_C,X104_ab104_C,by="國別")
-New105106<-inner_join(X105_ab105_C,X106_ab105_C,by="國別")
-New103104105106<-inner_join(New103104,New105106,by="國別")
-New103104105106$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106$境外專班.y.y))
-New103104105106$境外專班.x.y<-as.numeric(gsub("—","0",New103104105106$境外專班.x.y))
-New103104105106$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106$境外專班.y.y))
-New103104105106$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106$境外專班.y.x))
-New103104105106$境外專班加總1<-New103104105106$境外專班.y.y+New103104105106$境外專班.y.x
-New103104105106$境外專班加總2<-New103104105106$境外專班.x.y+New103104105106$境外專班.x.x
-New103104105106$境外專班加總<-New103104105106$境外專班加總1+New103104105106$境外專班加總2
-New103104105106<-arrange(New103104105106,desc(境外專班加總))
-knitr::kable(New103104105106[1:10,])
+#install.packages("knitr")
+#install.packages("dplyr")
+library(dplyr)
 ```
 
-| 洲別.x.x | 國別     | 學位生-正式修讀學位外國生.x | 學位生-僑生(含港澳).x | 學位生-正式修讀學位陸生.x | 非學位生-外國交換生.x | 非學位生-外國短期研習及個人選讀.x | 非學位生-大專附設華語文中心學生.x | 非學位生-大陸研修生.x | 非學位生-海青班.x | 境外專班.x.x | 洲別.y.x | 學位生-正式修讀學位外國生.y | 學位生-僑生(含港澳).y | 學位生-正式修讀學位陸生.y | 非學位生-外國交換生.y | 非學位生-外國短期研習及個人選讀.y | 非學位生-大專附設華語文中心學生.y | 非學位生-大陸研修生.y | 非學位生-海青班.y | 境外專班.y.x | 洲別.x.y | 學位生\_正式修讀學位外國生.x | 學位生\_僑生(含港澳).x | 學位生\_正式修讀學位陸生.x | 非學位生\_外國交換生.x | 非學位生\_外國短期研習及個人選讀.x | 非學位生\_大專附設華語文中心學生.x | 非學位生\_大陸研修生.x | 非學位生\_海青班.x | 境外專班.x.y | 洲別.y.y | 學位生\_正式修讀學位外國生.y | 學位生\_僑生(含港澳).y | 學位生\_正式修讀學位陸生.y | 非學位生\_外國交換生.y | 非學位生\_外國短期研習及個人選讀.y | 非學位生\_大專附設華語文中心學生.y | 非學位生\_大陸研修生.y | 非學位生\_海青班.y | 境外專班.y.y | 境外專班加總1 | 境外專班加總2 | 境外專班加總 |
-|:---------|:---------|:---------------------------:|:---------------------:|:-------------------------:|:---------------------:|:---------------------------------:|:---------------------------------:|:---------------------:|:-----------------:|:------------:|:---------|:---------------------------:|:---------------------:|:-------------------------:|:---------------------:|:---------------------------------:|:---------------------------------:|:---------------------:|:-----------------:|:------------:|:---------|:----------------------------:|:----------------------:|:--------------------------:|:----------------------:|:----------------------------------:|:----------------------------------:|:----------------------:|:------------------:|:------------:|:---------|:----------------------------:|:----------------------:|:--------------------------:|:----------------------:|:----------------------------------:|:----------------------------------:|:----------------------:|:------------------:|:------------:|:-------------:|:-------------:|:------------:|
-| 亞洲     | 越南     |             2450            |          291          |             0             |           11          |                 41                |                922                |           0           |         0         |      290     | 亞洲     |             2586            |          307          |             0             |           50          |                 47                |                1096               |           0           |         0         |      373     | 亞洲     |             2807             |           358          |              0             |           34           |                 277                |                1512                |            0           |          0         |      354     | 亞洲     |             3884             |           581          |              0             |           34           |                 277                |                2541                |            0           |         22         |      373     |      746      |      644      |     1390     |
-| 亞洲     | 馬來西亞 |             3671            |          6254         |             0             |           35          |                839                |                 85                |           0           |        2402       |      99      | 亞洲     |             4465            |          7053         |             0             |           38          |                848                |                247                |           0           |        2291       |      112     | 亞洲     |             5044             |          7645          |              0             |           53           |                 946                |                 261                |            0           |        2215        |      147     | 亞洲     |             5449             |          7984          |              0             |           53           |                 946                |                 338                |            0           |        2309        |      112     |      224      |      246      |      470     |
-| 亞洲     | 新加坡   |             100             |           99          |             0             |          107          |                340                |                 32                |           0           |         0         |      10      | 亞洲     |             101             |           89          |             0             |          116          |                240                |                110                |           0           |         0         |       7      | 亞洲     |              107             |           89           |              0             |           127          |                 396                |                 78                 |            0           |          0         |       0      | 亞洲     |              102             |           91           |              0             |           127          |                 396                |                 54                 |            0           |          0         |       7      |       14      |       10      |      24      |
-| 亞洲     | 中國大陸 |              0              |           0           |            5881           |           0           |                 0                 |                377                |         27030         |         0         |       0      | 亞洲     |              0              |           0           |            7813           |           0           |                 0                 |                 24                |         34114         |         0         |       0      | 亞洲     |               0              |            0           |            9327            |            0           |                  0                 |                  6                 |          32648         |          0         |       0      | 亞洲     |               0              |            0           |            9462            |            0           |                  0                 |                 18                 |          25824         |          0         |       0      |       0       |       0       |       0      |
-| 亞洲     | 香港     |              0              |          5814         |             0             |          193          |                220                |                 59                |           0           |         0         |       0      | 亞洲     |              0              |          7333         |             0             |          188          |                205                |                507                |           0           |         0         |       0      | 亞洲     |               0              |          8190          |              0             |           149          |                 242                |                 79                 |            0           |          0         |       0      | 亞洲     |               0              |          8329          |              0             |           149          |                 242                |                 41                 |            0           |          0         |       0      |       0       |       0       |       0      |
-| 亞洲     | 日本     |             698             |          177          |             0             |          494          |                1423               |                3024               |           0           |         0         |       0      | 亞洲     |             791             |          175          |             0             |          499          |                1554               |                3436               |           0           |         0         |       0      | 亞洲     |              931             |           177          |              0             |           561          |                1486                |                4387                |            0           |          0         |       0      | 亞洲     |             1183             |           157          |              0             |           561          |                1486                |                5000                |            0           |          0         |       0      |       0       |       0       |       0      |
-| 亞洲     | 澳門     |              0              |          4693         |             0             |           10          |                 3                 |                 17                |           0           |         0         |       0      | 亞洲     |              0              |          5001         |             0             |           21          |                 12                |                118                |           0           |         0         |       0      | 亞洲     |               0              |          5259          |              0             |           19           |                  5                 |                  3                 |            0           |          0         |       0      | 亞洲     |               0              |          5116          |              0             |           19           |                  5                 |                  1                 |            0           |          0         |       0      |       0       |       0       |       0      |
-| 亞洲     | 南韓     |             511             |          186          |             0             |          708          |                248                |                1933               |           0           |         1         |       0      | 亞洲     |             596             |          196          |             0             |          781          |                417                |                2070               |           0           |         2         |       0      | 亞洲     |              668             |           188          |              0             |           708          |                 441                |                2568                |            0           |          2         |       0      | 亞洲     |              746             |           170          |              0             |           708          |                 441                |                2658                |            0           |          1         |       0      |       0       |       0       |       0      |
-| 亞洲     | 印尼     |             1374            |          971          |             0             |           35          |                134                |                976                |           0           |         69        |       0      | 亞洲     |             1623            |          1101         |             0             |           68          |                162                |                1442               |           0           |         58        |       0      | 亞洲     |             1923             |          1208          |              0             |           113          |                 197                |                1626                |            0           |         87         |       0      | 亞洲     |             2662             |          1401          |              0             |           113          |                 197                |                1959                |            0           |         121        |       0      |       0       |       0       |       0      |
-| 亞洲     | 泰國     |             548             |          268          |             0             |          108          |                150                |                461                |           0           |         0         |       0      | 亞洲     |             506             |          260          |             0             |          129          |                241                |                455                |           0           |         0         |       0      | 亞洲     |              544             |           240          |              0             |           146          |                 246                |                 595                |            0           |          0         |       0      | 亞洲     |              635             |           212          |              0             |           146          |                 246                |                 884                |            0           |          2         |       0      |       0       |       0       |       0      |
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library(knitr)
+c103<-data.frame(country=c103$國別,people103=c103$`學位生-正式修讀學位外國生`+c103$`學位生-僑生(含港澳)`+c103$`學位生-正式修讀學位陸生`+
+                   c103$`非學位生-外國交換生`+c103$`非學位生-外國短期研習及個人選讀`+
+                   c103$`非學位生-大專附設華語文中心學生`+c103$`非學位生-大陸研修生`+
+                   c103$`非學位生-海青班`+c103$境外專班)
+
+c104<-data.frame(country=c104$國別,people104=c104$`學位生-正式修讀學位外國生`+c104$`學位生-僑生(含港澳)`+c104$`學位生-正式修讀學位陸生`+
+                   c104$`非學位生-外國交換生`+c104$`非學位生-外國短期研習及個人選讀`+
+                   c104$`非學位生-大專附設華語文中心學生`+c104$`非學位生-大陸研修生`+
+                   c104$`非學位生-海青班`+c104$境外專班)
+c103104<-full_join(c103,c104,by="country")
+```
+
+    ## Warning: Column `country` joining factors with different levels, coercing
+    ## to character vector
+
+``` r
+c105<-data.frame(country=c105$國別,people105=c105$`學位生_正式修讀學位外國生`+c105$`學位生_僑生(含港澳)`+c105$`學位生_正式修讀學位陸生`+
+                   c105$`非學位生_外國交換生`+c105$`非學位生_外國短期研習及個人選讀`+
+                   c105$`非學位生_大專附設華語文中心學生`+c105$`非學位生_大陸研修生`+
+                   c105$`非學位生_海青班`+c105$境外專班)
+c103104105<-full_join(c103104,c105,by="country")
+```
+
+    ## Warning: Column `country` joining character vector and factor, coercing
+    ## into character vector
+
+``` r
+c106<-data.frame(country=c106$國別,people106=c106$`學位生_正式修讀學位外國生`+c106$`學位生_僑生(含港澳)`+c106$`學位生_正式修讀學位陸生`+
+                   c106$`非學位生_外國交換生`+c106$`非學位生_外國短期研習及個人選讀`+
+                   c106$`非學位生_大專附設華語文中心學生`+c106$`非學位生_大陸研修生`+
+                   c106$`非學位生_海青班`+c106$境外專班)
+c103104105106<-full_join(c103104105,c106,by="country")
+```
+
+    ## Warning: Column `country` joining character vector and factor, coercing
+    ## into character vector
+
+``` r
+c103104105106[is.na(c103104105106)]=0
+c103104105106$total<-c103104105106$people103+c103104105106$people104+c103104105106$people105+c103104105106$people106
+c103104105106<-arrange(c103104105106,desc(c103104105106$total))
+knitr::kable(c103104105106[1:10,c(1,6)])
+```
+
+| country  |   total|
+|:---------|-------:|
+| 中國大陸 |  152524|
+| 馬來西亞 |   62031|
+| 香港     |   31940|
+| 日本     |   28200|
+| 越南     |   21670|
+| 澳門     |   20302|
+| 印尼     |   19620|
+| 南韓     |   16948|
+| 美國     |   14846|
+| 泰國     |    7035|
 
 ### 哪間大學的境外生最多呢？
 
 ``` r
 #這是R Code Chunk
-New103104S<-inner_join(X103_ab103_S,X104_ab104_S,by="學校名稱")
-New105106S<-inner_join(X105_ab105_S,X106_ab105_S,by="學校名稱")
-New103104105106S<-inner_join(New103104S,New105106S,by="學校名稱")
 
-New103104105106S$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106S$境外專班.y.y))
-New103104105106S$境外專班.x.y<-as.numeric(gsub("—","0",New103104105106S$境外專班.x.y))
-New103104105106S$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106S$境外專班.y.y))
-New103104105106S$境外專班.y.y<-as.numeric(gsub("—","0",New103104105106S$境外專班.y.x))
-New103104105106S$境外專班加總1<-New103104105106S$境外專班.y.y+New103104105106S$境外專班.y.x
-New103104105106S$境外專班加總2<-New103104105106S$境外專班.x.y+New103104105106S$境外專班.x.x
-New103104105106S$境外專班加總<-New103104105106S$境外專班加總1+New103104105106S$境外專班加總2
-New103104105106S<-arrange(New103104105106S,desc(境外專班加總))
-knitr::kable(New103104105106S[1:10,])
+s103$`非學位生-大陸研修生`<-as.numeric(gsub("…","0",s103$`非學位生-大陸研修生`))
+s103<-data.frame(school=s103$學校名稱,people103=s103$`學位生-正式修讀學位外國生`+s103$`學位生-僑生(含港澳)`+s103$`學位生-正式修讀學位陸生`+
+                   s103$`非學位生-外國交換生`+s103$`非學位生-外國短期研習及個人選讀`+s103$`非學位生-大專附設華語文中心學生`+
+                   s103$`非學位生-大陸研修生`+s103$`非學位生-海青班`+s103$境外專班)
+
+s104$`非學位生-大陸研修生`<-as.numeric(gsub("…","0",s104$`非學位生-大陸研修生`))
+s104<-data.frame(school=s104$學校名稱,people104=s104$`學位生-正式修讀學位外國生`+s104$`學位生-僑生(含港澳)`+s104$`學位生-正式修讀學位陸生`+
+                   s104$`非學位生-外國交換生`+s104$`非學位生-外國短期研習及個人選讀`+s104$`非學位生-大專附設華語文中心學生`+
+                   s104$`非學位生-大陸研修生`+s104$`非學位生-海青班`+s104$境外專班)
+s103104<-full_join(s103,s104,by="school")
 ```
 
-| 學校類型.x.x | 學校代碼.x.x | 學校名稱         | 學位生-正式修讀學位外國生.x | 學位生-僑生(含港澳).x | 學位生-正式修讀學位陸生.x | 非學位生-外國交換生.x | 非學位生-外國短期研習及個人選讀.x | 非學位生-大專附設華語文中心學生.x | 非學位生-大陸研修生.x | 非學位生-海青班.x | 境外專班.x.x | 學校類型.y.x | 學校代碼.y.x | 學位生-正式修讀學位外國生.y | 學位生-僑生(含港澳).y | 學位生-正式修讀學位陸生.y | 非學位生-外國交換生.y | 非學位生-外國短期研習及個人選讀.y | 非學位生-大專附設華語文中心學生.y | 非學位生-大陸研修生.y | 非學位生-海青班.y | 境外專班.y.x | 學校類型.x.y | 學校代碼.x.y | 學位生\_正式修讀學位外國生.x | 學位生\_僑生(含港澳).x | 學位生\_正式修讀學位陸生.x | 非學位生\_外國交換生.x | 非學位生\_外國短期研習及個人選讀.x | 非學位生\_大專附設華語文中心學生.x | 非學位生\_大陸研修生.x | 非學位生\_海青班.x | 境外專班.x.y | 學校類型.y.y | 學校代碼.y.y | 學位生\_正式修讀學位外國生.y | 學位生\_僑生(含港澳).y | 學位生\_正式修讀學位陸生.y | 非學位生\_外國交換生.y | 非學位生\_外國短期研習及個人選讀.y | 非學位生\_大專附設華語文中心學生.y | 非學位生\_大陸研修生.y | 非學位生\_海青班.y | 境外專班.y.y | 境外專班加總1 | 境外專班加總2 | 境外專班加總 |
-|:-------------|:-------------|:-----------------|:---------------------------:|:---------------------:|:-------------------------:|:---------------------:|:---------------------------------:|:---------------------------------:|:----------------------|:-----------------:|:------------:|:-------------|:-------------|:---------------------------:|:---------------------:|:-------------------------:|:---------------------:|:---------------------------------:|:---------------------------------:|:----------------------|:-----------------:|:------------:|:-------------|:-------------|:----------------------------:|:----------------------:|:--------------------------:|:----------------------:|:----------------------------------:|:----------------------------------:|:----------------------:|:------------------:|:------------:|:-------------|:-------------|:----------------------------:|:----------------------:|:--------------------------:|:----------------------:|:----------------------------------:|:----------------------------------:|:----------------------:|:------------------:|:------------:|:-------------:|:-------------:|:------------:|
-| 大專校院     | 1064         | 美和科技大學     |              3              |           5           |             1             |           0           |                 24                |                 0                 | …                     |         0         |      88      | 大專校院     | 1064         |              3              |           5           |             0             |           0           |                 0                 |                 0                 | …                     |         0         |      206     | 大專校院     | 1064         |               3              |            5           |              0             |            0           |                  0                 |                  0                 |            0           |          0         |      197     | 大專校院     | 1064         |              35              |            5           |              0             |            0           |                  0                 |                  0                 |            0           |          0         |      206     |      412      |      285      |      697     |
-| 大專校院     | 1030         | 龍華科技大學     |             103             |           11          |             46            |           5           |                 0                 |                 0                 | …                     |         90        |      92      | 大專校院     | 1030         |             138             |           28          |             62            |           22          |                 0                 |                 49                | …                     |        117        |      82      | 大專校院     | 1030         |              145             |           37           |             57             |           21           |                  0                 |                 68                 |            0           |         105        |      82      | 大專校院     | 1030         |              222             |           92           |             63             |           21           |                  0                 |                 93                 |            0           |         80         |      82      |      164      |      174      |      338     |
-| 大專校院     | 0015         | 國立彰化師範大學 |              24             |          167          |             8             |           9           |                 20                |                 28                | …                     |         0         |      60      | 大專校院     | 0015         |              28             |          172          |             16            |           11          |                 0                 |                165                | …                     |         0         |      65      | 大專校院     | 0015         |              38              |           187          |             25             |            6           |                  0                 |                 44                 |            0           |          0         |      85      | 大專校院     | 0015         |              48              |           200          |             27             |            6           |                  0                 |                 77                 |            0           |          0         |      65      |      130      |      145      |      275     |
-| 大專校院     | 1014         | 義守大學         |             556             |          464          |            119            |           12          |                 0                 |                266                | …                     |         0         |      71      | 大專校院     | 1014         |             655             |          577          |            168            |           8           |                 0                 |                389                | …                     |         0         |      51      | 大專校院     | 1014         |              686             |           677          |             167            |           24           |                  0                 |                 200                |            0           |          0         |      23      | 大專校院     | 1014         |              711             |           668          |             154            |           24           |                  0                 |                 370                |            0           |          0         |      51      |      102      |       94      |      196     |
-| 大專校院     | 1026         | 樹德科技大學     |             111             |          106          |             97            |           8           |                 11                |                 0                 | …                     |         0         |      39      | 大專校院     | 1026         |             132             |          171          |            127            |           9           |                 9                 |                 0                 | …                     |         0         |      27      | 大專校院     | 1026         |              150             |           218          |             163            |           21           |                  8                 |                  0                 |            0           |          0         |      26      | 大專校院     | 1026         |              176             |           241          |             161            |           21           |                  8                 |                 54                 |            0           |          0         |      27      |       54      |       65      |      119     |
-| 大專校院     | 0023         | 國立雲林科技大學 |              66             |          125          |             44            |           13          |                 6                 |                 0                 | …                     |         0         |       0      | 大專校院     | 0023         |              80             |          180          |             61            |           12          |                 2                 |                 0                 | …                     |         0         |      24      | 大專校院     | 0023         |              76              |           203          |             91             |            9           |                  3                 |                  0                 |            0           |          0         |      51      | 大專校院     | 0023         |              102             |           244          |             111            |            9           |                  3                 |                  0                 |            0           |          0         |      24      |       48      |       51      |      99      |
-| 大專校院     | 1073         | 醒吾科技大學     |              12             |           11          |             4             |           0           |                 0                 |                 0                 | …                     |         0         |      19      | 大專校院     | 1073         |              16             |           20          |             4             |           0           |                 0                 |                 0                 | …                     |         0         |      13      | 大專校院     | 1073         |              19              |           27           |              6             |            0           |                  0                 |                  0                 |            0           |          0         |      23      | 大專校院     | 1073         |              169             |           33           |              7             |            0           |                  0                 |                  0                 |            0           |          0         |      13      |       26      |       42      |      68      |
-| 大專校院     | 0021         | 國立暨南國際大學 |              70             |          455          |             6             |           9           |                 1                 |                 0                 | …                     |         0         |      13      | 大專校院     | 0021         |              69             |          570          |             14            |           13          |                 2                 |                 0                 | …                     |         0         |       9      | 大專校院     | 0021         |              62              |           647          |             20             |            6           |                  1                 |                  0                 |            0           |          0         |       0      | 大專校院     | 0021         |              68              |           678          |             19             |            6           |                  1                 |                  0                 |            0           |          0         |       9      |       18      |       13      |      31      |
-| 大專校院     | 0001         | 國立政治大學     |             488             |          483          |            194            |          570          |                 68                |                902                | …                     |         0         |       0      | 大專校院     | 0001         |             518             |          547          |            282            |          513          |                 76                |                935                | …                     |         0         |       0      | 大專校院     | 0001         |              534             |           588          |             319            |           572          |                 66                 |                 910                |            0           |          0         |       0      | 大專校院     | 0001         |              537             |           622          |             344            |           572          |                 66                 |                 920                |            0           |          0         |       0      |       0       |       0       |       0      |
-| 大專校院     | 0002         | 國立清華大學     |             320             |          234          |            139            |           40          |                120                |                 0                 | …                     |         0         |       0      | 大專校院     | 0002         |             382             |          243          |            185            |           60          |                106                |                 0                 | …                     |         0         |       0      | 大專校院     | 0002         |              457             |           274          |             215            |           56           |                 147                |                  0                 |            0           |          0         |       0      | 大專校院     | 0002         |              505             |           444          |             247            |           56           |                 147                |                 360                |            0           |          0         |       0      |       0       |       0       |       0      |
+    ## Warning: Column `school` joining factors with different levels, coercing to
+    ## character vector
+
+``` r
+s105$`非學位生_大陸研修生`<-as.numeric(gsub("…","0",s105$`非學位生_大陸研修生`))
+s105<-data.frame(school=s105$學校名稱,people105=s105$`學位生_正式修讀學位外國生`+s105$`學位生_僑生(含港澳)`+s105$`學位生_正式修讀學位陸生`+
+                   s105$`非學位生_外國交換生`+s105$`非學位生_外國短期研習及個人選讀`+s105$`非學位生_大專附設華語文中心學生`+
+                   s105$`非學位生_大陸研修生`+s105$`非學位生_海青班`+s105$境外專班)
+s103104105<-full_join(s103104,s105,by="school")
+```
+
+    ## Warning: Column `school` joining character vector and factor, coercing into
+    ## character vector
+
+``` r
+s106$`非學位生_大陸研修生`<-as.numeric(gsub("…","0",s106$`非學位生_大陸研修生`))
+s106<-data.frame(school=s106$學校名稱,people106=s106$`學位生_正式修讀學位外國生`+s106$`學位生_僑生(含港澳)`+s106$`學位生_正式修讀學位陸生`+
+                   s106$`非學位生_外國交換生`+s106$`非學位生_外國短期研習及個人選讀`+s106$`非學位生_大專附設華語文中心學生`+
+                   s106$`非學位生_大陸研修生`+s106$`非學位生_海青班`+s106$境外專班)
+s103104105106<-full_join(s103104105,s106,by="school")
+```
+
+    ## Warning: Column `school` joining character vector and factor, coercing into
+    ## character vector
+
+``` r
+s103104105106[is.na(s103104105106)]=0
+s103104105106$total<-s103104105106$people103+s103104105106$people104+s103104105106$people105+s103104105106$people106
+s103104105106<-arrange(s103104105106,desc(s103104105106$total))
+knitr::kable(s103104105106[1:10,c(1,6)])
+```
+
+| school           |  total|
+|:-----------------|------:|
+| 無法區分校別     |  92586|
+| 國立臺灣師範大學 |  22113|
+| 國立臺灣大學     |  18199|
+| 中國文化大學     |  16074|
+| 銘傳大學         |  16057|
+| 淡江大學         |  13887|
+| 國立政治大學     |  11626|
+| 國立成功大學     |  10982|
+| 輔仁大學         |   9499|
+| 逢甲大學         |   9474|
 
 ### 各個國家來台灣唸書的學生人數條狀圖
 
 ``` r
 #這是R Code Chunk
-library(ggplot2) 
-library(datasets) 
-library(data.table)
-```
-
-    ## 
-    ## Attaching package: 'data.table'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     between, first, last
-
-``` r
-ggplot()+geom_bar(data=New103104105106,aes(x=國別,y=境外專班加總),
-                  stat = "identity")
+library(ggplot2)
+ggplot()+geom_bar(data=c103104105106,
+                  aes(x=country,y=total),
+                  stat = "identity") +labs(x="國家",y="人數")+theme(axis.text.x = element_text(angle = 90, hjust = 0.001))
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/ToTWNCountryBar-1.png)
+
+``` r
+groupCountry1<-c103104105106%>%
+  group_by(country)%>%
+  tally(total,sort=TRUE)%>%
+  group_by(country = factor(c(country[1:10], rep("Other", n() - 10)),
+                            levels = c(country[1:10], "Other")))%>%
+  tally(n)
+colnames(groupCountry1)<-c("country","total")
+ggplot()+geom_bar(data=groupCountry1,
+                  aes(x=country,y=total),
+                  stat = "identity",
+                  fill = "darkblue")
+```
+
+![](InternationalStudents_files/figure-markdown_github/ToTWNCountryBar-2.png)
 
 ### 各個國家來台灣唸書的學生人數面量圖
 
 ``` r
 #這是R Code Chunk
+library(choroplethr)
 ```
+
+    ## Loading required package: acs
+
+    ## Loading required package: stringr
+
+    ## Loading required package: XML
+
+    ## 
+    ## Attaching package: 'acs'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     combine
+
+    ## The following object is masked from 'package:base':
+    ## 
+    ##     apply
+
+``` r
+library(readr)
+Countriesname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   ISO3 = col_character(),
+    ##   English = col_character(),
+    ##   Taiwan = col_character()
+    ## )
+
+``` r
+colnames(Countriesname)<-c("ISO3","English","country")
+TotalCountry<-merge(c103104105106[,c(1,6)],Countriesname,by="country")
+colnames(TotalCountry)<-c("country","value","ISO3","region")
+TotalCountry[5,2]<-TotalCountry[5,2]+TotalCountry[91,2]+TotalCountry[159,2]
+TotalCountry[107,2]<-TotalCountry[107,2]+TotalCountry[108,2]
+TotalCountry<-TotalCountry%>%
+  subset(region!="Unmatch")%>%
+  subset(country!="索馬利蘭共和國")
+a3<-country_choropleth(TotalCountry)
+```
+
+    ## Warning in super$initialize(country.map, user.df): Your data.frame contains
+    ## the following regions which are not mappable: Singapore
+
+    ## Warning in self$bind(): The following regions were missing and are being
+    ## set to NA: afghanistan, angola, montenegro, qatar, western sahara, south
+    ## sudan, somaliland, east timor, taiwan, vanuatu, central african republic,
+    ## northern cyprus, djibouti, eritrea, antarctica, equatorial guinea, kosovo,
+    ## lesotho
+
+``` r
+a3
+```
+
+![](InternationalStudents_files/figure-markdown_github/ToTWNCountryMap-1.png)
 
 台灣學生國際交流分析
 --------------------
@@ -351,85 +448,165 @@ ggplot()+geom_bar(data=New103104105106,aes(x=國別,y=境外專班加總),
 
 ``` r
 #這是R Code Chunk
-library(readxl)
-library(dplyr)
-Student_RPT_07 <- read_excel("C:/Users/IM/Desktop/Student_RPT_07.xlsx")
+library(readr)
+Student_RPT_07 <- read_csv("C:/Users/IM/Desktop/Student_RPT_07.csv")
 ```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   學年度 = col_integer(),
+    ##   學期 = col_integer(),
+    ##   設立別 = col_character(),
+    ##   學校類別 = col_character(),
+    ##   學校代碼 = col_character(),
+    ##   學校名稱 = col_character(),
+    ##   系所代碼 = col_integer(),
+    ##   系所名稱 = col_character(),
+    ##   學制 = col_character(),
+    ##   `對方學校(機構)國別(地區)` = col_character(),
+    ##   `對方學校(機構)中文名稱` = col_character(),
+    ##   `對方學校(機構)英文名稱` = col_character(),
+    ##   小計 = col_integer(),
+    ##   男 = col_integer(),
+    ##   女 = col_integer()
+    ## )
+
+    ## Warning: 2 parsing failures.
+    ## row # A tibble: 2 x 5 col     row col      expected               actual file                        expected   <int> <chr>    <chr>                  <chr>  <chr>                       actual 1 23579 系所代碼 no trailing characters A2     'C:/Users/IM/Desktop/Stude~ file 2 34284 系所代碼 no trailing characters A2     'C:/Users/IM/Desktop/Stude~
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流呢？
 
 ``` r
 #這是R Code Chunk
-filter1<-filter(Student_RPT_07,學年度>103)
-filter1$X__7<-as.numeric(gsub("—","0",filter1$X__7))
-filter1$country<-filter1$`對方學校(機構)國別(地區)`
 
-
-group1<-group_by(filter1,country)
-group1<-summarise(group1,total=sum(X__7))
-group1<-arrange(group1,desc(total))
-knitr::kable(group1[1:10,])
+library(dplyr)
+a<-subset(Student_RPT_07,`學年度`>102)%>%
+  group_by(`對方學校(機構)國別(地區)`)%>%
+  summarise(nCountry=sum(小計))
+b<-arrange(a,desc(nCountry))
+knitr::kable(b[1:10,])
 ```
 
-| country  |  total|
-|:---------|------:|
-| 中國大陸 |   4164|
-| 日本     |   3723|
-| 美國     |   2293|
-| 南韓     |   1251|
-| 大陸地區 |    800|
-| 德國     |    761|
-| 法國     |    664|
-| 英國     |    372|
-| 西班牙   |    354|
-| 加拿大   |    349|
+| 對方學校(機構)國別(地區) |  nCountry|
+|:-------------------------|---------:|
+| 中國大陸                 |      8375|
+| 日本                     |      7142|
+| 美國                     |      4427|
+| 南韓                     |      2050|
+| 大陸地區                 |      1516|
+| 德國                     |      1466|
+| 法國                     |      1258|
+| 英國                     |       742|
+| 加拿大                   |       689|
+| 西班牙                   |       642|
 
 ### 哪間大學的出國交流學生數最多呢？
 
 ``` r
 #這是R Code Chunk
 
-filter2<-filter(Student_RPT_07,學年度>103)
-filter2$X__7<-as.numeric(gsub("—","0",filter2$X__7))
-filter2$school<-filter2$X__4
-group2<-group_by(filter2,school)
-group2<-summarise(group2,total=sum(X__7))
-group2<-arrange(group2,desc(total))
-knitr::kable(group2[1:10,])
+c<-subset(Student_RPT_07,`學年度`>102)%>%
+  group_by(`學校名稱`)%>%
+  summarise(nSchool=sum(小計))
+d<-arrange(c,desc(nSchool))
+knitr::kable(d[1:10,])
 ```
 
-| school       |  total|
-|:-------------|------:|
-| 國立臺灣大學 |   1114|
-| 淡江大學     |   1080|
-| 國立政治大學 |   1018|
-| 逢甲大學     |    734|
-| 元智大學     |    662|
-| 實踐大學     |    541|
-| 國立交通大學 |    505|
-| 國立臺北大學 |    504|
-| 國立成功大學 |    474|
-| 東海大學     |    450|
+| 學校名稱     |  nSchool|
+|:-------------|--------:|
+| 國立臺灣大學 |     2224|
+| 淡江大學     |     2038|
+| 國立政治大學 |     1876|
+| 逢甲大學     |     1346|
+| 元智大學     |     1106|
+| 國立臺北大學 |      956|
+| 國立交通大學 |      951|
+| 東海大學     |      931|
+| 東吳大學     |      873|
+| 國立成功大學 |      846|
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流條狀圖
 
 ``` r
 #這是R Code Chunk
 
-library(ggplot2) 
-library(datasets) 
-library(data.table)
-ggplot()+geom_bar(data=group1,aes(x=country,y=total),
-                  stat = "identity")
+library(ggplot2)
+ggplot()+geom_bar(data=a,
+                  aes(x=`對方學校(機構)國別(地區)`,y=nCountry),
+                  stat = "identity") +labs(x="國家",y="人數")+theme(axis.text.x = element_text(angle = 90, hjust = 0.001))
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/FromTWNCountryBar-1.png)
+
+``` r
+groupCountry2<-a%>%
+  group_by(`對方學校(機構)國別(地區)`)%>%
+  tally(nCountry,sort=TRUE)%>%
+  group_by(`對方學校(機構)國別(地區)` = factor(c(`對方學校(機構)國別(地區)`[1:10], rep("Other", n() - 10)),
+                                     levels = c(`對方學校(機構)國別(地區)`[1:10], "Other")))%>%
+  tally(n)
+colnames(groupCountry2)<-c("對方學校(機構)國別(地區)","nCountry")
+ggplot()+geom_bar(data=groupCountry2,
+                  aes(x=`對方學校(機構)國別(地區)`,y=nCountry),
+                  stat = "identity",
+                  fill = "red")
+```
+
+![](InternationalStudents_files/figure-markdown_github/FromTWNCountryBar-2.png)
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流面量圖
 
 ``` r
 #這是R Code Chunk
+library(choroplethr)
+library(readr)
+countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
 ```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   ISO3 = col_character(),
+    ##   English = col_character(),
+    ##   Taiwan = col_character()
+    ## )
+
+``` r
+colnames(countryname)<-c("ISO3","English","中文")
+counta<-a
+colnames(counta)<-c("國名","count")
+countb<-merge(counta,countryname,by.x="國名",by.y="中文")
+colnames(countb)<-c("國名","value","ISO3","region")
+countb<-countb%>%
+  subset(region!="Unmatch")
+a6<-country_choropleth(countb,num_colors=9)
+```
+
+    ## Warning in super$initialize(country.map, user.df): Your data.frame contains
+    ## the following regions which are not mappable: Singapore
+
+    ## Warning in self$bind(): The following regions were missing and are being
+    ## set to NA: afghanistan, angola, azerbaijan, moldova, madagascar, macedonia,
+    ## mali, myanmar, montenegro, mozambique, mauritania, burundi, namibia,
+    ## nigeria, nicaragua, pakistan, papua new guinea, benin, paraguay, rwanda,
+    ## western sahara, sudan, burkina faso, south sudan, senegal, sierra leone,
+    ## el salvador, somaliland, somalia, suriname, syria, chad, togo, tajikistan,
+    ## turkmenistan, east timor, bulgaria, trinidad and tobago, taiwan, united
+    ## republic of tanzania, uganda, ukraine, uruguay, uzbekistan, the bahamas,
+    ## venezuela, vanuatu, yemen, zambia, zimbabwe, bosnia and herzegovina,
+    ## belarus, albania, belize, bolivia, bhutan, botswana, central african
+    ## republic, united arab emirates, ivory coast, cameroon, democratic republic
+    ## of the congo, republic of congo, cuba, northern cyprus, cyprus, argentina,
+    ## djibouti, dominican republic, algeria, eritrea, armenia, ethiopia,
+    ## fiji, gabon, georgia, ghana, antarctica, guinea, gambia, guinea bissau,
+    ## equatorial guinea, guatemala, guyana, honduras, haiti, iran, iraq, jamaica,
+    ## kazakhstan, kenya, kyrgyzstan, kosovo, laos, lebanon, liberia, libya,
+    ## lesotho, luxembourg
+
+``` r
+a6
+```
+
+![](InternationalStudents_files/figure-markdown_github/FromTWNCountryMap-1.png)
 
 台灣學生出國留學分析
 --------------------
@@ -438,37 +615,103 @@ ggplot()+geom_bar(data=group1,aes(x=country,y=total),
 
 ``` r
 #這是R Code Chunk
-library(readxl)
-English <- read_excel("C:/Users/IM/Desktop/English.xlsx")
+library(readr)
+m105 <- read_csv("C:/Users/IM/Desktop/m105.csv")
 ```
+
+    ## Warning: Missing column names filled in: 'X4' [4], 'X5' [5], 'X6' [6]
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   洲別 = col_character(),
+    ##   國別 = col_character(),
+    ##   總人數 = col_number(),
+    ##   X4 = col_character(),
+    ##   X5 = col_character(),
+    ##   X6 = col_character()
+    ## )
 
 ### 台灣學生最喜歡去哪些國家留學呢？
 
 ``` r
 #這是R Code Chunk
-English$`Head Count`<-as.numeric(English$`Head Count`)
-English<-arrange(English,desc(`Head Count`))
-knitr::kable(English[1:10,])
+library(dplyr)
+m105$X4=NULL
+m105$X5=NULL
+m105$X6=NULL
+m105[is.na(m105)]=0
+m105<-arrange(m105,desc(m105$總人數))
+knitr::kable(m105[1:10,])
 ```
 
-| Continent | Country                                              |  Head Count|
-|:----------|:-----------------------------------------------------|-----------:|
-| America   | United States of America                             |       21127|
-| Oceania   | Australia                                            |       13582|
-| Asia      | Japan                                                |        8444|
-| America   | Canada                                               |        4827|
-| Europe    | United Kingdom of Great Britain and Northern Ireland |        3815|
-| Europe    | Germany                                              |        1488|
-| Oceania   | New Zealand                                          |        1106|
-| Europe    | Poland                                               |         561|
-| Asia      | Malaysia                                             |         502|
-| Europe    | Austria                                              |         419|
+| 洲別   | 國別     | 總人數 |
+|:-------|:---------|:------:|
+| 美洲   | 美國     |  21127 |
+| 大洋洲 | 澳大利亞 |  13582 |
+| 亞洲   | 日本     |  8444  |
+| 美洲   | 加拿大   |  4827  |
+| 歐洲   | 英國     |  3815  |
+| 歐洲   | 德國     |  1488  |
+| 大洋洲 | 紐西蘭   |  1106  |
+| 歐洲   | 波蘭     |   561  |
+| 亞洲   | 馬來西亞 |   502  |
+| 歐洲   | 奧地利   |   419  |
 
 ### 台灣學生最喜歡去哪些國家留學面量圖
 
 ``` r
 #這是R Code Chunk
+library(readr)
+library(choroplethr)
+countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
 ```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   ISO3 = col_character(),
+    ##   English = col_character(),
+    ##   Taiwan = col_character()
+    ## )
+
+``` r
+colnames(countryname)<-c("ISO3","English","國別")
+m105countryname<-merge(m105,countryname,by="國別")
+colnames(m105countryname)<-c("國名","洲別","value","ISO3","region")
+a8<-country_choropleth(m105countryname)
+```
+
+    ## Warning in super$initialize(country.map, user.df): Your data.frame contains
+    ## the following regions which are not mappable: Singapore
+
+    ## Warning in self$bind(): The following regions were missing and are being
+    ## set to NA: afghanistan, angola, azerbaijan, moldova, madagascar, mexico,
+    ## macedonia, mali, myanmar, montenegro, mongolia, mozambique, mauritania,
+    ## burundi, malawi, namibia, france, niger, nigeria, nicaragua, oman,
+    ## pakistan, panama, peru, papua new guinea, north korea, benin, portugal,
+    ## paraguay, israel, qatar, romania, rwanda, western sahara, saudi arabia,
+    ## sudan, burkina faso, south sudan, senegal, solomon islands, sierra leone,
+    ## el salvador, somaliland, somalia, republic of serbia, suriname, slovakia,
+    ## slovenia, swaziland, syria, chad, togo, tajikistan, turkmenistan, east
+    ## timor, bulgaria, trinidad and tobago, tunisia, turkey, taiwan, united
+    ## republic of tanzania, uganda, ukraine, uruguay, uzbekistan, the bahamas,
+    ## venezuela, vanuatu, yemen, south africa, zambia, zimbabwe, bosnia and
+    ## herzegovina, belarus, albania, belize, bolivia, brazil, bhutan, botswana,
+    ## central african republic, switzerland, chile, united arab emirates, china,
+    ## ivory coast, cameroon, democratic republic of the congo, republic of
+    ## congo, colombia, costa rica, cuba, northern cyprus, cyprus, argentina,
+    ## czech republic, djibouti, dominican republic, algeria, ecuador, egypt,
+    ## eritrea, spain, armenia, estonia, ethiopia, fiji, gabon, georgia, ghana,
+    ## antarctica, guinea, gambia, guinea bissau, equatorial guinea, greece,
+    ## guatemala, guyana, honduras, croatia, haiti, hungary, ireland, iran, iraq,
+    ## italy, jamaica, jordan, kazakhstan, kenya, kyrgyzstan, cambodia, south
+    ## korea, kosovo, kuwait, laos, lebanon, liberia, libya, lesotho, lithuania,
+    ## luxembourg, latvia, morocco
+
+``` r
+a8
+```
+
+![](InternationalStudents_files/figure-markdown_github/FromTWNAbMap-1.png)
 
 綜合分析
 --------
