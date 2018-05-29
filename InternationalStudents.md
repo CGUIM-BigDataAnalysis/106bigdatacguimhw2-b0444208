@@ -174,7 +174,6 @@ s106<- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6289&md5_ur
 
 ``` r
 #這是R Code Chunk
-
 library(knitr)
 kable(head(iris))
 ```
@@ -251,25 +250,27 @@ c103104105106<-arrange(c103104105106,desc(c103104105106$total))
 knitr::kable(c103104105106[1:10,c(1,6)])
 ```
 
-| country      |                                                                                                                           total|
-|:-------------|-------------------------------------------------------------------------------------------------------------------------------:|
-| 中國大陸     |                                                                                                                          152524|
-| 馬來西亞     |                                                                                                                           62031|
-| 香港         |                                                                                                                           31940|
-| 日本         |                                                                                                                           28200|
-| 越南         |                                                                                                                           21670|
-| 澳門         |                                                                                                                           20302|
-| 印尼         |                                                                                                                           19620|
-| 南韓         |                                                                                                                           16948|
-| 美國         |                                                                                                                           14846|
-| 泰國         |                                                                                                                            7035|
-| 由上述資料分 |  析結果，顯示出「中國」來台灣唸書的學生最多，其次才是馬來西亞、香港、日本等等。其中，中國來台念書的人數為馬來西亞的2.46倍之多。|
+| country  |   total|
+|:---------|-------:|
+| 中國大陸 |  152524|
+| 馬來西亞 |   62031|
+| 香港     |   31940|
+| 日本     |   28200|
+| 越南     |   21670|
+| 澳門     |   20302|
+| 印尼     |   19620|
+| 南韓     |   16948|
+| 美國     |   14846|
+| 泰國     |    7035|
+
+由上述資料分析結果，顯示出**中國大陸**來台灣唸書的學生最多，其次才是馬來西亞、香港、日本等等。其中，中國來台念書的人數為馬來西亞的2.46倍之多。另外，前十名內僅有**美國**為非亞洲國家，其餘皆為亞洲國家。
+
+------------------------------------------------------------------------
 
 ### 哪間大學的境外生最多呢？
 
 ``` r
 #這是R Code Chunk
-
 s103$`非學位生-大陸研修生`<-as.numeric(gsub("…","0",s103$`非學位生-大陸研修生`))
 s103<-data.frame(school=s103$學校名稱,people103=s103$`學位生-正式修讀學位外國生`+s103$`學位生-僑生(含港澳)`+s103$`學位生-正式修讀學位陸生`+
                    s103$`非學位生-外國交換生`+s103$`非學位生-外國短期研習及個人選讀`+s103$`非學位生-大專附設華語文中心學生`+
@@ -314,24 +315,28 @@ s103104105106<-arrange(s103104105106,desc(s103104105106$total))
 knitr::kable(s103104105106[1:10,c(1,6)])
 ```
 
-| school               |                                                                                                                                                                     total|
-|:---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 無法區分校別         |                                                                                                                                                                     92586|
-| 國立臺灣師範大學     |                                                                                                                                                                     22113|
-| 國立臺灣大學         |                                                                                                                                                                     18199|
-| 中國文化大學         |                                                                                                                                                                     16074|
-| 銘傳大學             |                                                                                                                                                                     16057|
-| 淡江大學             |                                                                                                                                                                     13887|
-| 國立政治大學         |                                                                                                                                                                     11626|
-| 國立成功大學         |                                                                                                                                                                     10982|
-| 輔仁大學             |                                                                                                                                                                      9499|
-| 逢甲大學             |                                                                                                                                                                      9474|
-| 由上述資料分析結果， |  顯示出「臺灣師範大學」為大學的境外生最多的學校。其次才是國立臺灣大學、中國文化大學、銘傳大學等等。出乎意料地，大學的境外生在臺灣師範大學竟然超出國立臺灣大學將近四千人。|
+| school           |  total|
+|:-----------------|------:|
+| 無法區分校別     |  92586|
+| 國立臺灣師範大學 |  22113|
+| 國立臺灣大學     |  18199|
+| 中國文化大學     |  16074|
+| 銘傳大學         |  16057|
+| 淡江大學         |  13887|
+| 國立政治大學     |  11626|
+| 國立成功大學     |  10982|
+| 輔仁大學         |   9499|
+| 逢甲大學         |   9474|
+
+由上述資料分析結果，顯示出**臺灣師範大學**為大學的境外生最多的學校。其次才是國立臺灣大學、中國文化大學、銘傳大學等等。出乎意料地，大學的境外生在臺灣師範大學竟然超出國立臺灣大學將近四千人。雖然資料顯示出境外生人數的多寡，然而卻無從得知境外生所佔學校人數的比例。因此，若得知更多相關資料便能再更進一步的分析。
+
+------------------------------------------------------------------------
 
 ### 各個國家來台灣唸書的學生人數條狀圖
 
 ``` r
 #這是R Code Chunk
+#install.packages("ggplot2")
 library(ggplot2)
 ggplot()+geom_bar(data=c103104105106,
                   aes(x=country,y=total),
@@ -356,10 +361,14 @@ ggplot()+geom_bar(data=groupCountry1,
 
 ![](InternationalStudents_files/figure-markdown_github/ToTWNCountryBar-2.png)
 
+------------------------------------------------------------------------
+
 ### 各個國家來台灣唸書的學生人數面量圖
 
 ``` r
 #這是R Code Chunk
+#install.packages("choroplethr")
+#install.packages("readr")
 library(choroplethr)
 ```
 
@@ -399,9 +408,9 @@ colnames(TotalCountry)<-c("country","value","ISO3","region")
 TotalCountry[5,2]<-TotalCountry[5,2]+TotalCountry[91,2]+TotalCountry[159,2]
 TotalCountry[107,2]<-TotalCountry[107,2]+TotalCountry[108,2]
 TotalCountry<-TotalCountry%>%
-  subset(region!="Unmatch")%>%
-  subset(country!="索馬利蘭共和國")
-a3<-country_choropleth(TotalCountry)
+    subset(region!="Unmatch")%>%
+    subset(country!="索馬利蘭共和國")
+map1<-country_choropleth(TotalCountry)
 ```
 
     ## Warning in super$initialize(country.map, user.df): Your data.frame contains
@@ -414,10 +423,11 @@ a3<-country_choropleth(TotalCountry)
     ## lesotho
 
 ``` r
-a3
+map1
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/ToTWNCountryMap-1.png)
+-----------------------------------------------------------------------------
 
 台灣學生國際交流分析
 --------------------
@@ -426,6 +436,7 @@ a3
 
 ``` r
 #這是R Code Chunk
+#install.packages("readr")
 library(readr)
 Student_RPT_07 <- read_csv("C:/Users/IM/Desktop/Student_RPT_07.csv")
 ```
@@ -456,13 +467,12 @@ Student_RPT_07 <- read_csv("C:/Users/IM/Desktop/Student_RPT_07.csv")
 
 ``` r
 #這是R Code Chunk
-
 library(dplyr)
-a<-subset(Student_RPT_07,`學年度`>102)%>%
+data1<-subset(Student_RPT_07,`學年度`>102)%>%
   group_by(`對方學校(機構)國別(地區)`)%>%
   summarise(nCountry=sum(小計))
-b<-arrange(a,desc(nCountry))
-knitr::kable(b[1:10,])
+data2<-arrange(data1,desc(nCountry))
+knitr::kable(data2[1:10,])
 ```
 
 | 對方學校(機構)國別(地區) |  nCountry|
@@ -478,39 +488,45 @@ knitr::kable(b[1:10,])
 | 加拿大                   |       689|
 | 西班牙                   |       642|
 
+由上述資料分析結果，顯示出**中國大陸**為台灣大專院校的學生最喜歡去進修交流的國家。其次才是日本、美國、南韓等等。由此可見，台灣大專院校的學生並非僅以較近的亞洲國家(金錢)，作為進修交流的考量。
+
+------------------------------------------------------------------------
+
 ### 哪間大學的出國交流學生數最多呢？
 
 ``` r
 #這是R Code Chunk
-
-c<-subset(Student_RPT_07,`學年度`>102)%>%
+data3<-subset(Student_RPT_07,`學年度`>102)%>%
   group_by(`學校名稱`)%>%
   summarise(nSchool=sum(小計))
-d<-arrange(c,desc(nSchool))
-knitr::kable(d[1:10,])
+data4<-arrange(data3,desc(nSchool))
+knitr::kable(data4[1:10,])
 ```
 
-| 學校名稱         |                                                                                                                                                                             nSchool|
-|:-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 國立臺灣大學     |                                                                                                                                                                                2224|
-| 淡江大學         |                                                                                                                                                                                2038|
-| 國立政治大學     |                                                                                                                                                                                1876|
-| 逢甲大學         |                                                                                                                                                                                1346|
-| 元智大學         |                                                                                                                                                                                1106|
-| 國立臺北大學     |                                                                                                                                                                                 956|
-| 國立交通大學     |                                                                                                                                                                                 951|
-| 東海大學         |                                                                                                                                                                                 931|
-| 東吳大學         |                                                                                                                                                                                 873|
-| 國立成功大學     |                                                                                                                                                                                 846|
-| 由上述資料分析結 |  果，顯示出「國立臺灣大學」的出國交流學生數在台灣眾多學校中遙遙令先暫居第一。其次才是淡江大學、國立政治大學、逢甲大學等等。其中，由前三名中顯示並非國立大學才是出國交流的第一選擇。|
+| 學校名稱     |  nSchool|
+|:-------------|--------:|
+| 國立臺灣大學 |     2224|
+| 淡江大學     |     2038|
+| 國立政治大學 |     1876|
+| 逢甲大學     |     1346|
+| 元智大學     |     1106|
+| 國立臺北大學 |      956|
+| 國立交通大學 |      951|
+| 東海大學     |      931|
+| 東吳大學     |      873|
+| 國立成功大學 |      846|
+
+由上述資料分析結果，顯示出**國立臺灣大學**的出國交流學生數，在台灣眾多學校中遙遙令先暫居第一。其次才是淡江大學、國立政治大學、逢甲大學等等。然而，由前十名中顯示，台灣學校出國交流學生數的排名為私立學校換國立學校各佔一半，因此並非國立大學才是決定出國交流的第一選擇。
+
+------------------------------------------------------------------------
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流條狀圖
 
 ``` r
 #這是R Code Chunk
-
+#install.packages("ggplot2")
 library(ggplot2)
-ggplot()+geom_bar(data=a,
+ggplot()+geom_bar(data=data1,
                   aes(x=`對方學校(機構)國別(地區)`,y=nCountry),
                   stat = "identity") +labs(x="國家",y="人數")+theme(axis.text.x = element_text(angle = 90, hjust = 0.001))
 ```
@@ -518,25 +534,28 @@ ggplot()+geom_bar(data=a,
 ![](InternationalStudents_files/figure-markdown_github/FromTWNCountryBar-1.png)
 
 ``` r
-groupCountry2<-a%>%
-  group_by(`對方學校(機構)國別(地區)`)%>%
-  tally(nCountry,sort=TRUE)%>%
-  group_by(`對方學校(機構)國別(地區)` = factor(c(`對方學校(機構)國別(地區)`[1:10], rep("Other", n() - 10)),
-                                     levels = c(`對方學校(機構)國別(地區)`[1:10], "Other")))%>%
-  tally(n)
+groupCountry2<-data1%>%
+    group_by(`對方學校(機構)國別(地區)`)%>%
+    tally(nCountry,sort=TRUE)%>%
+    group_by(`對方學校(機構)國別(地區)` = factor(c(`對方學校(機構)國別(地區)`[1:10], rep("Other", n() - 10)),
+                                          levels = c(`對方學校(機構)國別(地區)`[1:10], "Other")))%>%
+    tally(n)
 colnames(groupCountry2)<-c("對方學校(機構)國別(地區)","nCountry")
 ggplot()+geom_bar(data=groupCountry2,
                   aes(x=`對方學校(機構)國別(地區)`,y=nCountry),
                   stat = "identity",
-                  fill = "red")
+                  fill = "darkblue")
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/FromTWNCountryBar-2.png)
+-------------------------------------------------------------------------------
 
 ### 台灣大專院校的學生最喜歡去哪些國家進修交流面量圖
 
 ``` r
 #這是R Code Chunk
+#install.packages("choroplethr")
+#install.packages("readr")
 library(choroplethr)
 library(readr)
 countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
@@ -551,13 +570,13 @@ countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
 
 ``` r
 colnames(countryname)<-c("ISO3","English","中文")
-counta<-a
-colnames(counta)<-c("國名","count")
-countb<-merge(counta,countryname,by.x="國名",by.y="中文")
-colnames(countb)<-c("國名","value","ISO3","region")
-countb<-countb%>%
+count1<-data1
+colnames(count1)<-c("國名","count")
+count2<-merge(count1,countryname,by.x="國名",by.y="中文")
+colnames(count2)<-c("國名","value","ISO3","region")
+count2<-count2%>%
   subset(region!="Unmatch")
-a6<-country_choropleth(countb,num_colors=9)
+map2<-country_choropleth(count2,num_colors=9)
 ```
 
     ## Warning in super$initialize(country.map, user.df): Your data.frame contains
@@ -582,10 +601,11 @@ a6<-country_choropleth(countb,num_colors=9)
     ## lesotho, luxembourg
 
 ``` r
-a6
+map2
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/FromTWNCountryMap-1.png)
+-------------------------------------------------------------------------------
 
 台灣學生出國留學分析
 --------------------
@@ -594,8 +614,9 @@ a6
 
 ``` r
 #這是R Code Chunk
+#install.packages("readr")
 library(readr)
-m105 <- read_csv("C:/Users/IM/Desktop/m105.csv")
+data105 <- read_csv("C:/Users/IM/Desktop/m105.csv")
 ```
 
     ## Warning: Missing column names filled in: 'X4' [4], 'X5' [5], 'X6' [6]
@@ -610,37 +631,45 @@ m105 <- read_csv("C:/Users/IM/Desktop/m105.csv")
     ##   X6 = col_character()
     ## )
 
+------------------------------------------------------------------------
+
 ### 台灣學生最喜歡去哪些國家留學呢？
 
 ``` r
 #這是R Code Chunk
+#install.packages("dplyr")
 library(dplyr)
-m105$X4=NULL
-m105$X5=NULL
-m105$X6=NULL
-m105[is.na(m105)]=0
-m105<-arrange(m105,desc(m105$總人數))
-knitr::kable(m105[1:10,])
+data105$X4=NULL
+data105$X5=NULL
+data105$X6=NULL
+data105[is.na(data105)]=0
+data105<-arrange(data105,desc(data105$總人數))
+knitr::kable(data105[1:10,])
 ```
 
-| 洲別       | 國別         |                                                                            總人數                                                                            |
-|:-----------|:-------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 美洲       | 美國         |                                                                             21127                                                                            |
-| 大洋洲     | 澳大利亞     |                                                                             13582                                                                            |
-| 亞洲       | 日本         |                                                                             8444                                                                             |
-| 美洲       | 加拿大       |                                                                             4827                                                                             |
-| 歐洲       | 英國         |                                                                             3815                                                                             |
-| 歐洲       | 德國         |                                                                             1488                                                                             |
-| 大洋洲     | 紐西蘭       |                                                                             1106                                                                             |
-| 歐洲       | 波蘭         |                                                                              561                                                                             |
-| 亞洲       | 馬來西亞     |                                                                              502                                                                             |
-| 歐洲       | 奧地利       |                                                                              419                                                                             |
-| 由上述資料 | 分析結果，顯 | 示出「美國」為台灣最為受歡迎的留學國家，其次才是澳大利亞、日本、加拿大等等。其中，美國留學的人數遠超過澳大利亞7545人。其中，唯一擠進前三名的亞洲國家為日本。 |
+| 洲別   | 國別     | 總人數 |
+|:-------|:---------|:------:|
+| 美洲   | 美國     |  21127 |
+| 大洋洲 | 澳大利亞 |  13582 |
+| 亞洲   | 日本     |  8444  |
+| 美洲   | 加拿大   |  4827  |
+| 歐洲   | 英國     |  3815  |
+| 歐洲   | 德國     |  1488  |
+| 大洋洲 | 紐西蘭   |  1106  |
+| 歐洲   | 波蘭     |   561  |
+| 亞洲   | 馬來西亞 |   502  |
+| 歐洲   | 奧地利   |   419  |
+
+由上述資料分析結果，顯示出**美國**為台灣最為受歡迎的留學國家，其次才是澳大利亞、日本、加拿大等等。其中，美國留學的人數遠超過澳大利亞7545人。其中，唯一擠進前三名的亞洲國家為**日本**。
+
+------------------------------------------------------------------------
 
 ### 台灣學生最喜歡去哪些國家留學面量圖
 
 ``` r
 #這是R Code Chunk
+#install.packages("readr")
+#install.packages("choroplethr")
 library(readr)
 library(choroplethr)
 countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
@@ -655,9 +684,9 @@ countryname <- read_csv("C:/Users/IM/Desktop/CountriesComparisionTable.csv")
 
 ``` r
 colnames(countryname)<-c("ISO3","English","國別")
-m105countryname<-merge(m105,countryname,by="國別")
+m105countryname<-merge(data105,countryname,by="國別")
 colnames(m105countryname)<-c("國名","洲別","value","ISO3","region")
-a8<-country_choropleth(m105countryname)
+map3<-country_choropleth(m105countryname)
 ```
 
     ## Warning in super$initialize(country.map, user.df): Your data.frame contains
@@ -688,7 +717,7 @@ a8<-country_choropleth(m105countryname)
     ## luxembourg, latvia, morocco
 
 ``` r
-a8
+map3
 ```
 
 ![](InternationalStudents_files/figure-markdown_github/FromTWNAbMap-1.png)
@@ -698,4 +727,6 @@ a8
 
 請問來台讀書與離台讀書的來源國與留學國趨勢是否相同(5分)？想來台灣唸書的境外生，他們的母國也有很多台籍生嗎？請圖文並茂說明你的觀察(10分)。
 
-來台讀書的來源國為中國大陸、日本、美國，而離台讀書的留學國為美國、澳大利亞、日本。其中美國及日本無論是來台讀書或是出國留學都為十分受歡迎的選擇。
+------------------------------------------------------------------------
+
+根據上述所有資料進行分析比對之後，來台讀書的來源國為中國大陸、馬來西亞、香港、日本等等，而離台讀書的留學國為美國、澳大利亞、日本、加拿大等等。顯示出**美國**及**日本**無論是來台讀書或是出國留學，都為十分受歡迎的選擇。另外，想來台灣唸書的境外生排名依序為中國大陸、日本、美國、南韓……。其中，**日本**及**美國**國內也有相當多的台籍生。
